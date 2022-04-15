@@ -1,5 +1,22 @@
+"""
+module to organise inner processes of the game
+"""
+
+
 class Street:
+    """
+    Street class
+    """
+
     def __init__(self, name, description=None, linked_str=None, character=None, item=None):
+        """
+        constructor
+        :param name:
+        :param description:
+        :param linked_str:
+        :param character:
+        :param item:
+        """
         self.name = name
         self.description = description
         self.linked_str = linked_str or {}
@@ -67,12 +84,16 @@ class Street:
         return self.item
 
     def get_info(self):
+        """
+        print out main information about the street
+        :return:
+        """
         linked = 'Neighboring streets:\n'
         for i in self.linked_str:
-            linked += i+": " + self.linked_str[i].name+"\n"
+            linked += i + ": " + self.linked_str[i].name + "\n"
         linked += "------------"
         char = 'None' if not self.character \
-            else type(self.character).__name__ + "===" + self.character.name
+            else type(self.character).__name__ + " - " + self.character.name
         item = self.item.name if self.item else None
         print(f"Name: {self.name}", f"Description: {self.description}",
               f"{linked}",
@@ -81,7 +102,17 @@ class Street:
 
 
 class Character:
+    """
+    Character class
+    """
+
     def __init__(self, name, description, conversation=None):
+        """
+        constructor
+        :param name:
+        :param description:
+        :param conversation:
+        """
         self.name = name
         self.description = description
         self.conversation = conversation or ''
@@ -112,9 +143,19 @@ class Character:
 
 
 class Enemy(Character):
+    """
+    child Enemy class that inherits from Character class
+    """
     defeated = 0
 
     def __init__(self, name, description, conversation=None, weakness=None):
+        """
+        constructor
+        :param name:
+        :param description:
+        :param conversation:
+        :param weakness:
+        """
         super().__init__(name, description, conversation)
         self.weakness = weakness or ''
 
@@ -158,11 +199,26 @@ class Enemy(Character):
 
 
 class Friend(Character):
+    """
+    child Friend class that inherits from Character class
+    """
+
     def __init__(self, name, description, conversation=None, secret_gift=None):
+        """
+        constructor
+        :param name:
+        :param description:
+        :param conversation:
+        :param secret_gift:
+        """
         super().__init__(name, description, conversation)
         self.secret_gift = secret_gift
 
     def coffee_time(self):
+        """
+        drink coffee with a Friend
+        :return:
+        """
         print("Let's go to the coffee house. You get to choose one",
               "1) coffee manufactory",
               "2) Lviv coffee mine",
@@ -173,7 +229,7 @@ class Friend(Character):
             if self.secret_gift:
                 print("Now I present to you the gift",
                       "that will help you fight the boss")
-                print('\033[96m'+self.secret_gift + '\033[0m')
+                print('\033[96m' + self.secret_gift + '\033[0m')
                 return 0
             return 1
         elif choice == "3":
@@ -184,6 +240,10 @@ class Friend(Character):
         return 3
 
     def provide_gift(self):
+        """
+        give the player gift in return if you have one
+        :return:
+        """
         return self.secret_gift
 
 
@@ -227,17 +287,27 @@ class Item:
 
 
 class Boss(Enemy):
+    """
+    child Boss class that inherits from Enemy class
+    """
+
     def __init__(self):
+        """
+        constructor
+        """
         self.name = 'russian-speaking baron kiryusha'
         self.description = 'extremely impudent creature'
         self.weakness = 'Iryna Farion'
         self.conversation = "We have a free country. What's the difference?"
 
+
 class Support(Item):
     """
+    items that increase the number of lives the player has
     """
+
 
 class Weapon(Item):
     """
-
+    items that help the player fight enemies
     """

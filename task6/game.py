@@ -69,13 +69,13 @@ class Street:
     def get_info(self):
         linked = 'Neighboring streets:\n'
         for i in self.linked_str:
-            linked += i+": " + self.linked_str[i]+"\n"
+            linked += i+": " + self.linked_str[i].name+"\n"
         linked += "------------"
         char = 'None' if not self.character \
             else type(self.character).__name__ + "===" + self.character.name
         item = self.item.name if self.item else None
         print(f"Name: {self.name}", f"Description: {self.description}",
-              f"Linked room: {linked}",
+              f"{linked}",
               f"Character: {char}",
               f"Item: {item}", sep='\n')
 
@@ -146,6 +146,16 @@ class Enemy(Character):
         Enemy.defeated += 1
         return Enemy.defeated
 
+    def describe(self):
+        """
+        show main info about the character
+        :return:
+        """
+        typ = type(self).__name__
+        print(f"{typ}: {self.name}",
+              f"Description: {self.description}",
+              f"Weakness: {self.weakness}", sep='\n')
+
 
 class Friend(Character):
     def __init__(self, name, description, conversation=None, secret_gift=None):
@@ -163,6 +173,7 @@ class Friend(Character):
             if self.secret_gift:
                 print("Now I present to you the gift",
                       "that will help you fight the boss")
+                print('\033[96m'+self.secret_gift + '\033[0m')
                 return 0
             return 1
         elif choice == "3":
@@ -221,3 +232,12 @@ class Boss(Enemy):
         self.description = 'extremely impudent creature'
         self.weakness = 'Iryna Farion'
         self.conversation = "We have a free country. What's the difference?"
+
+class Support(Item):
+    """
+    """
+
+class Weapon(Item):
+    """
+
+    """

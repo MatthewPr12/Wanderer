@@ -83,7 +83,73 @@ def main():
 
     lives = 3
     backpack = []
-    
+    curr_street = stryyska
+    conditions= {"killed": False}
+
+    while lives > 0:
+        curr_street.get_info()
+
+        resident = curr_street.get_character()
+        item = curr_street.get_item()
+        if item is not None:
+            item.describe()
+
+        if resident is not None:
+            resident.describe()
+
+        command = input(">>> ")
+
+        if command in {"north", "south", "east", "west"}:
+            # Move in the given direction
+            curr_street = curr_street.move(command)
+
+        elif command == "talk":
+            # Talk to the inhabitant - check whether there is one!
+            if resident is not None:
+                resident.talk()
+
+        elif command == "fight":
+            if resident is not None:
+                if isinstance(resident, Friend):
+                    print("Why would you fight a friend?")
+                else:
+                    print("What will you fight with?")
+                    fight_with = input(">>> ")
+                    if fight_with in backpack:
+                        if resident.fight(fight_with):
+                            print("Successful Lviv cleaning. Lviv Territorial Defence is proud of you")
+                            curr_street.character = None
+                            if resident.get_defeated() == 2:
+                                print("Congratulations, you have completed one condition to win")
+                                conditions['killed'] = True
+
+                        else:
+                            print("Oh dear, you lost the fight.")
+                            print("It costs you a life")
+                            lives -= 1
+                    else:
+                        print("You don't have a " + fight_with)
+            else:
+                print("There's no one here to fight with, shybenyku")
+        elif command == "take":
+            if item is not None:
+                print("You put the " + item.get_name() + " in your backpack")
+                backpack.append(item.get_name())
+                curr_street.set_item(None)
+            else:
+                print("There's nothing here to take!")
+        elif command == "coffee time":
+            if resident is not None:
+                if isinstance(resident, Friend):
+                    choice = resident.coffee_time()
+                    if choice == 0:
+                        backpack.append(resident.secret_gift)
+                    elif choice == 2:
+                        lives -= 1
+
+        else:
+            print("I don't know how to " + command)
+
 
 
 

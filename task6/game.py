@@ -200,9 +200,8 @@ class Item:
 
 
 class Boss(Enemy):
-    def __init__(self, name, description, conversation):
-        super().__init__(name, description, conversation)
-        self.name = 'Russian-speaking baron'
+    def __init__(self):
+        self.name = 'russian-speaking baron kiryusha'
         self.description = 'extremely impudent creature'
         self.weakness = 'Iryna Farion'
         self.conversation = "We have a free country. What's the difference?"

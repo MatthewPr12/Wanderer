@@ -34,8 +34,33 @@ def main():
     krakiv.link_str(svoboda, 'west')
     svoboda.link_str(krakiv, 'east')
 
+    kavaler = Friend('Kavaler Vasyl', 'bought BTC back in 2010',
+                     secret_gift='Iryna Farion')
+    kavaler.set_conversation("Hi, I've got coffee in my veins")
+    svoboda.set_character(kavaler)
+
+    lotr = Enemy("Lotr Piotr", "Scoundrel")
+    lotr.set_conversation("I can steal your purse, you won't even notice")
+    lotr.set_weakness("syrnyk")
+    krakiv.set_character(lotr)
+
+    zbuy = Enemy("Zbuy Leonid", "Local fat bully")
+    zbuy.set_conversation("Do you know, what region you're in?")
+    zbuy.set_weakness("math")
+    stryyska.set_character(zbuy)
+
+    batyar = Enemy("Batyar Ivan", "Got nice tobacco pipe")
+    batyar.set_conversation("Wanna take a stroll down the street. I can drive you on tram")
+    batyar.set_weakness("beer")
+    franka.set_character(batyar)
+
+    laydak = Enemy("Laydak Arkadii", "Lviv is my home, literally")
+    laydak.set_conversation("Got a penny?")
+    laydak.set_weakness("credit card")
+    kozelnytska.set_character(laydak)
+
+    moskal = Boss
+    sheva.set_character(moskal)
+
     
-
-
-
 

@@ -1,5 +1,15 @@
+"""
+main module with game loop
+"""
 from game import Street, Enemy, Friend, Weapon, Boss, Support
+
+
 def check_conditions(conditions):
+    """
+    check whether player has won
+    :param conditions:
+    :return:
+    """
     for i in conditions:
         if not conditions[i]:
             return False
@@ -7,6 +17,10 @@ def check_conditions(conditions):
 
 
 def main():
+    """
+    main wrapper
+    :return:
+    """
     stryyska = Street("Stryyska")
     stryyska.set_description("One of the longest roads in Lviv(7.5 km)")
 
@@ -90,7 +104,7 @@ def main():
     lives = 3
     backpack = []
     curr_street = stryyska
-    conditions= {"killed": False, 'boss': False}
+    conditions = {"killed": False, 'boss': False}
 
     while lives > 0:
         if check_conditions(conditions):
@@ -148,7 +162,8 @@ def main():
                     fight_with = input(">>> ")
                     if fight_with in backpack:
                         if resident.fight(fight_with):
-                            print("Successful Lviv cleaning. Lviv Territorial Defence is proud of you")
+                            print("Successful Lviv cleaning. \
+                            Lviv Territorial Defence is proud of you")
                             curr_street.character = None
                             if resident.get_defeated() == 2:
                                 print("Congratulations, you have completed one condition to win")

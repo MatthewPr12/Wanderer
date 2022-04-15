@@ -1,4 +1,10 @@
-from game import Street, Enemy, Friend, Item, Boss
+from game import Street, Enemy, Friend, Weapon, Boss, Support
+def check_conditions(conditions):
+    for i in conditions:
+        if not conditions[i]:
+            return False
+    return True
+
 
 def main():
     stryyska = Street("Stryyska")
@@ -62,31 +68,36 @@ def main():
     nechyst = Boss()
     sheva.set_character(nechyst)
 
-    syrnyk = Item("syrnyk")
+    syrnyk = Weapon("syrnyk")
     syrnyk.set_description("God made it and gave to Lviv residents as a gift")
-    krakiv.set_item(syrnyk)
+    kozelnytska.set_item(syrnyk)
 
-    math = Item("math")
+    math = Weapon("math")
     math.set_description("Unbearable for stupid minds")
-    kozelnytska.set_item(math)
+    krakiv.set_item(math)
 
-    beer = Item("beer")
+    beer = Weapon("beer")
     beer.set_description("Lvivske Rizdviane hits different")
     franka.set_item(beer)
 
-    credit_card = Item("credit card")
+    credit_card = Weapon("credit card")
     credit_card.set_description("something unknown for russians")
 
-    elixir_of_life = Item("Pyrohy & Pliatsky")
+    elixir_of_life = Support("Pyrohy & Pliatsky")
     elixir_of_life.set_description("This healing food resurrected Galicians")
     sheva.set_item(elixir_of_life)
 
     lives = 3
     backpack = []
     curr_street = stryyska
-    conditions= {"killed": False}
+    conditions= {"killed": False, 'boss': False}
 
     while lives > 0:
+        if check_conditions(conditions):
+            print("Congratulations!!! Armed Forces of Ukraine need you")
+            quit()
+
+        print('\033[94m' + "LIVES: " + str(lives) + '\033[0m')
         curr_street.get_info()
 
         resident = curr_street.get_character()
@@ -107,11 +118,31 @@ def main():
             # Talk to the inhabitant - check whether there is one!
             if resident is not None:
                 resident.talk()
+            else:
+                print("Are you having schizophrenia? There's no one here")
 
         elif command == "fight":
             if resident is not None:
                 if isinstance(resident, Friend):
                     print("Why would you fight a friend?")
+                elif isinstance(resident, Boss):
+                    print("This fight will be LEGENDARY")
+                    print("What will you fight with?")
+                    fight_with = input(">>> ")
+                    if fight_with in backpack:
+                        if resident.fight(fight_with):
+                            print("Lviv without russian. Dreams do come true")
+                            curr_street.character = None
+                            print("Congratulations, you have completed one condition to win")
+                            conditions['boss'] = True
+                        else:
+                            print("Oh dear, you lost the fight.")
+                            print("It costs you 3 lives")
+                            lives -= 3
+                    else:
+                        print("You don't have a " + fight_with)
+                        print("It costs you 3 lives")
+                        lives -= 3
                 else:
                     print("What will you fight with?")
                     fight_with = input(">>> ")
@@ -129,12 +160,18 @@ def main():
                             lives -= 1
                     else:
                         print("You don't have a " + fight_with)
+                        print("It costs you a life")
+                        lives -= 1
             else:
                 print("There's no one here to fight with, shybenyku")
         elif command == "take":
             if item is not None:
-                print("You put the " + item.get_name() + " in your backpack")
-                backpack.append(item.get_name())
+                if isinstance(item, Support):
+                    lives += 1
+                    print("You can now live for 1 life longer")
+                else:
+                    print("You put the " + item.get_name() + " in your backpack")
+                    backpack.append(item.get_name())
                 curr_street.set_item(None)
             else:
                 print("There's nothing here to take!")
@@ -149,8 +186,9 @@ def main():
 
         else:
             print("I don't know how to " + command)
+    else:
+        print("Life has come to an end my friend")
 
 
-
-
-
+if __name__ == "__main__":
+    main()

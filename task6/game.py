@@ -4,7 +4,7 @@ class Street:
         self.description = description
         self.linked_str = linked_str or {}
         self.character = character or None
-        self.item = item or []
+        self.item = item or None
 
     def set_description(self, text):
         """
@@ -22,7 +22,7 @@ class Street:
         :param direction:
         :return:
         """
-        self.linked_room[direction] = other
+        self.linked_str[direction] = other
 
     def set_character(self, char):
         """
@@ -44,7 +44,7 @@ class Street:
     def move(self, direction):
         """
         move to linked street
-        :param command:
+        :param direction:
         :return:
         """
         if direction in self.linked_str:
@@ -65,6 +65,19 @@ class Street:
         :return:
         """
         return self.item
+
+    def get_info(self):
+        linked = 'Neighboring streets:\n'
+        for i in self.linked_str:
+            linked += i+": " + self.linked_str[i]+"\n"
+        linked += "------------"
+        char = 'None' if not self.character \
+            else type(self.character).__name__ + "===" + self.character.name
+        item = self.item.name if self.item else None
+        print(f"Name: {self.name}", f"Description: {self.description}",
+              f"Linked room: {linked}",
+              f"Character: {char}",
+              f"Item: {item}", sep='\n')
 
 
 class Character:
@@ -158,6 +171,9 @@ class Friend(Character):
             return 2
         print("Ugh, sorry, we don't go there. Bye")
         return 3
+
+    def provide_gift(self):
+        return self.secret_gift
 
 
 class Item:

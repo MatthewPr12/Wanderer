@@ -59,8 +59,32 @@ def main():
     laydak.set_weakness("credit card")
     kozelnytska.set_character(laydak)
 
-    moskal = Boss
-    sheva.set_character(moskal)
+    nechyst = Boss()
+    sheva.set_character(nechyst)
 
+    syrnyk = Item("syrnyk")
+    syrnyk.set_description("God made it and gave to Lviv residents as a gift")
+    krakiv.set_item(syrnyk)
+
+    math = Item("math")
+    math.set_description("Unbearable for stupid minds")
+    kozelnytska.set_item(math)
+
+    beer = Item("beer")
+    beer.set_description("Lvivske Rizdviane hits different")
+    franka.set_item(beer)
+
+    credit_card = Item("credit card")
+    credit_card.set_description("something unknown for russians")
+
+    elixir_of_life = Item("Pyrohy & Pliatsky")
+    elixir_of_life.set_description("This healing food resurrected Galicians")
+    sheva.set_item(elixir_of_life)
+
+    lives = 3
+    backpack = []
     
+
+
+
 
